@@ -299,6 +299,12 @@ class StixCyberObservable:
             ... on PhoneNumber {
                 value
             }
+            ... on TrackingNumber {
+                value
+            }
+            ... on Credential {
+                value
+            }
             ... on PaymentCard {
                 card_number
                 expiration_date
@@ -561,6 +567,8 @@ class StixCyberObservable:
             type = "IPv6-Addr"
         elif type.lower() == "hostname" or type.lower() == "x-opencti-hostname":
             type = "Hostname"
+        elif type.lower() == "payment-card" or type.lower() == "x-opencti-payment-card":
+            type = "Payment-Card"
         elif (
             type.lower() == "cryptocurrency-wallet"
             or type.lower() == "x-opencti-cryptocurrency-wallet"
@@ -678,6 +686,8 @@ class StixCyberObservable:
                     $UserAgent: UserAgentAddInput
                     $BankAccount: BankAccountAddInput
                     $PhoneNumber: PhoneNumberAddInput
+                    $Credential: CredentialAddInput
+                    $TrackingNumber: TrackingNumberAddInput
                     $PaymentCard: PaymentCardAddInput
                     $MediaContent: MediaContentAddInput
                 ) {
@@ -719,6 +729,8 @@ class StixCyberObservable:
                         UserAgent: $UserAgent
                         BankAccount: $BankAccount
                         PhoneNumber: $PhoneNumber
+                        Credential: $Credential
+                        TrackingNumber: $TrackingNumber
                         PaymentCard: $PaymentCard
                         MediaContent: $MediaContent
                     ) {
@@ -1091,6 +1103,27 @@ class StixCyberObservable:
                     if "value" in observable_data
                     else None,
                 }
+            elif type == "Payment-Card" or type == "X-OpenCTI-Payment-Card":
+                # @fix
+                # card_number
+                # expiration_date
+                # cvv
+                # holder_name
+                input_variables["PaymentCard"] = {
+                    # "value": observable_data["value"]
+                    # if "value" in observable_data
+                    # else None,
+                    "card_number": observable_data["card_number"]
+                    if "card_number" in observable_data
+                    else None,
+                    "expiration_date": observable_data["expiration_date"]
+                    if "expiration_date" in observable_data
+                    else None,
+                    "cvv": observable_data["cvv"] if "cvv" in observable_data else None,
+                    "holder_name": observable_data["holder_name"]
+                    if "holder_name" in observable_data
+                    else None,
+                }
             elif (
                 type == "Cryptocurrency-Wallet"
                 or type == "X-OpenCTI-Cryptocurrency-Wallet"
@@ -1124,6 +1157,18 @@ class StixCyberObservable:
                 }
             elif type == "Phone-Number":
                 input_variables["PhoneNumber"] = {
+                    "value": observable_data["value"]
+                    if "value" in observable_data
+                    else None,
+                }
+            elif type == "Credential":
+                input_variables["Credential"] = {
+                    "value": observable_data["value"]
+                    if "value" in observable_data
+                    else None,
+                }
+            elif type == "Tracking-Number":
+                input_variables["TrackingNumber"] = {
                     "value": observable_data["value"]
                     if "value" in observable_data
                     else None,

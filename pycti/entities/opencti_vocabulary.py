@@ -18,7 +18,7 @@ class Vocabulary:
     def list(self, **kwargs):
         filters = kwargs.get("filters", None)
         self.opencti.log(
-            "info", "Listing Vocabularies with filters " + json.dumps(filters) + "."
+            "info", "Listing Vocabularies with filters ==>" + json.dumps(filters) + "."
         )
         query = (
             """
@@ -152,7 +152,7 @@ class Vocabulary:
             self.opencti.log("info", "Updating Vocabulary {" + id + "}.")
             query = """
                         mutation VocabularyEdit($id: ID!, $input: [EditInput!]!) {
-                            vocabularyFieldPatch(id: $id, input: $input) { 
+                            vocabularyFieldPatch(id: $id, input: $input) {
                                 id
                                 standard_id
                                 entity_type

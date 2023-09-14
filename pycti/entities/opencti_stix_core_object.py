@@ -456,7 +456,7 @@ class StixCoreObject:
                         }
                     }
                 }
-            }      
+            }
             ... on StixCyberObservable {
                 observable_value
             }
@@ -634,6 +634,12 @@ class StixCoreObject:
                 account_number
             }
             ... on PhoneNumber {
+                value
+            }
+            ... on TrackingNumber {
+                value
+            }
+            ... on Credential {
                 value
             }
             ... on PaymentCard {

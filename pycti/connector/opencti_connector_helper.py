@@ -1276,3 +1276,19 @@ class OpenCTIConnectorHelper:  # pylint: disable=too-many-public-methods
                 "extension-definition--322b8f77-262a-4cb8-a915-1e441e00329b"
             ][key]
         return None
+
+    @staticmethod
+    def get_attribute_in_mcas_ind_extension(key, object) -> any:
+        if (
+            "extensions" in object
+            and "extension-definition--8543d015-8ac1-4edd-b3a9-29d241eec28c"
+            in object["extensions"]
+            and key
+            in object["extensions"][
+                "extension-definition--8543d015-8ac1-4edd-b3a9-29d241eec28c"
+            ]
+        ):
+            return object["extensions"][
+                "extension-definition--8543d015-8ac1-4edd-b3a9-29d241eec28c"
+            ][key]
+        return None
